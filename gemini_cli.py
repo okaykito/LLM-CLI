@@ -3,6 +3,7 @@ import requests
 import sys
 from dotenv import load_dotenv
 import os
+import time
 
 load_dotenv(os.path.expanduser('~/llmcli/.env'))
 API_KEY = os.getenv('GEMINI_API_KEY')
@@ -18,7 +19,7 @@ def query_gemini(prompt):
     )
 
     full_prompt = f"{system_instruction}\n\n{prompt}"
-    print(f"[DEBUG] Sending prompt: '{prompt}'\n")
+    start = time.time()
 
     response = requests.post(
         ENDPOINT,
@@ -29,6 +30,11 @@ def query_gemini(prompt):
             }]
         }
     )
+
+    end = time.time()
+    duration = round(end - start, 2)
+
+    print(f"[DEBUG] Prompt: '{prompt}' | Time taken: {duration} seconds\n")
 
     try:
         data = response.json()
