@@ -34,12 +34,10 @@ def query_gemini(prompt):
     end = time.time()
     duration = round(end - start, 2)
 
-    print(f"[DEBUG] Prompt: '{prompt}' | Time taken: {duration} seconds\n")
-
     try:
         data = response.json()
         output = data["candidates"][0]["content"]["parts"][0]["text"]
-        print(f"[RESPONSE]\n{output}")
+        print(f"Q: {prompt}\nT: {duration} seconds\n\n{output}")
     except Exception as e:
         print(f"[ERROR] Malformed response: {e}")
 
